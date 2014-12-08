@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!--reset basic html tags in different browsers to uniform style-->
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css"/>
+	<style type="text/css">
+		body{background-color: #e1e0d9;min-width: 1000px;}
+		nav a{color:white;text-decoration: none;}
+		nav{width:100%;background-color: #1688cc;padding-bottom: 20px;}
+		.nav-content{width: 1000px;margin: 0 auto;position: relative;}
+		nav img{width:222px;height: 58px;margin-top: 20px;margin-left: 25px;}
+		.nav-list{display: inline-block;position: absolute;top:55px;right: 80px;}
+		.nav-ele{float: right;margin-left: 50px;font-size: 16px;font-family: microsoft yahei;padding-left: 10px;}
+		.active,.nav-ele:hover{border-left: 2px solid white;margin-left: 48px;}
+		.frame{width: 1000px;margin: 0 auto; position: relative;min-height: 407px;margin-bottom: 80px;}
+		.menu{width: 176px;margin-left: 28px;overflow: hidden;margin-top: 57px;height:297px;}
+		.menu a{color: #4589c8;text-decoration: none;}
+		.menu-item{border-left: 1px solid #4589c8;border-top: 1px solid #4589c8;font-size: 16px;font-family: microsoft yahei;height:36px;width: 175px;font-weight: 300;line-height: 36px;text-align: center;position:relative;}
+		.actived{background-color: #4589c8;}
+		.actived a{color: white;}
+		.circle{border: 1px solid #4589c8;height:22px;width:22px;position:absolute;border-radius:11px; top:7px;left: -14px;background-color: #e1e0d9;}
+		.rec{height:24px;width:14px;position:absolute;top:7px;left: -15px;background-color: #e1e0d9;}
+		footer{font-size: 14px;color:#a6937c;text-align: center;padding-top:14px;padding-bottom:14px;margin-top: -61px;border-top: 1px solid #a6937c;width: 100%;}
+		footer a{color:inherit;text-decoration: none;}
+		footer a:hover{color:white;}
+		#win{border:none;position: absolute;top:0;right: 0;width: 750px;}
+	</style>
+	<script type="text/javascript">
+		function menuClick(){
+			//change the background color of the clicked button and change others back
+			var p=document.getElementsByClassName("menu-item");
+			for(var i=0;i<p.length;i++){
+				p[i].getElementsByTagName("a")[0].onclick=function(){
+					for(var j=0;j<p.length;j++){
+						p[j].className="menu-item";
+					}
+					this.parentNode.className="menu-item actived";
+				}
+			}
+			//read and redirect the requests from index.html
+			var url=window.location.search.substr(1);
+			if(url){
+				var index=url.indexOf("&");
+				if(index==1){
+					var sec=isNaN(url.charAt(0))?undefined:url.charAt(0);
+					var id=isNaN(url.substr(index+1))?undefined:url.substr(index+1);
+					if(sec&&id){
+						if(sec=="0"){
+							document.getElementById("win").src="/news/?ID="+id;
+						}else if(sec=="1"){
+							document.getElementById("win").src="/notice/?ID="+id;
+						}else{
+							p[sec].getElementsByTagName("a")[0].click();
+						}
+					}
+				}else if(!isNaN(url)){
+				p[url].getElementsByTagName("a")[0].click();}
+				else{
+					document.getElementById("win").src="/search/"+window.location.search
+				}
+			}
+			//add the event-listener to resize the iframe tag each time loading a new page into it
+			var o = document.getElementById("win");
+			window.addEventListener('message', function(event) {
+				// only accept something which can be parsed as a number
+				if (isNaN(event.data)) return; 
+				// add some extra height to avoid scrollbar
+				var height = parseInt(event.data)+32; 
+				o.height = height+"px";
+				document.getElementsByClassName("frame")[0].style.height=height+80+"px";
+				event.data=0;
+			}, false);
+		}
+	</script>
+</head>
+<!--execute menuClick() after the document finishes loading-->
+<body onload="menuClick()">
+	<!--navigation bar-->
+	<nav>
+		<div class=nav-content>
+			<img src="/static/img/a.png">
+			<ul class=nav-list>
+				<li class=nav-ele><a href="/admin/">登陆</a></li>
+				<li class=nav-ele><a href="{% url 'menu'%}?9">招生动态</a></li>
+				<li class=nav-ele><a href="{% url 'menu' %}?8">师资队伍</a></li>
+				<li class=nav-ele><a href="{% url 'menu' %}?10">学院概况</a></li>
+				<li class=nav-ele><a href="{% url 'index' %}">首页</a></li>
+			</ul>
+		</div>
+	</nav>
+	<!--button list-->
+	<div class=frame>
+		<ul class=menu>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'news' %}?pagenum=1" target=win>新闻动态</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'notice' %}?pagenum=1" target=win>通知公告</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'communication' %}?pagenum=1" target=win>国际交流</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'rule' %}?pagenum=1" target=win>规章制度</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'employment' %}?pagenum=1" target=win> 就业信息</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'courseware' %}?pagenum=1" target=win>课件下载</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'link' %}" target=win>友情链接</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'connection' %}" target=win>联系我们</a>
+			</li>
+            		<li class=menu-item><div class=circle></div>
+            			<a href="{% url 'faculty' %}?pagenum=1" target=win>师资队伍</a>
+            		</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'recruit' %}?pagenum=1" target=win>招生动态</a>
+			</li>
+			<li class=menu-item><div class=circle></div>
+				<a href="{% url 'college' %}" target=win>学院概况</a>
+			</li>
+           		<li class=menu-item><div class=circle></div>
+           			<a href="{% url 'search' %}" target=win>搜索</a>
+           		</li>
+
+		</ul>
+		<!--the iframe tag to load content pages-->
+		<iframe name="win" id="win" seamless onload="resizeCrossDomainIframe()" src=""></iframe>
+	</div>
+	<!--footer-->
+	<footer>Copyright:<a href="#">©给喵金币</a> 2014<br>All rights reserved</footer>
+</body>
+</html>

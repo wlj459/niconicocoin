@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+    <!--reset basic html tags in different browsers to uniform style-->
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css"/>
+    <!--style for content pages-->
+	<link rel="stylesheet" type="text/css" href="/static/css/content.css"/>
+</head>
+<!--send document height to upper frame-->
+<body onload="parent.postMessage(document.getElementById('border').offsetHeight,'*');">
+    <!--set border to get outer height-->
+<div id="border">
+        {% ifequal url_name 'search' %}
+    <!--navigation link-->
+	<nav class=position>当前位置：<a href="">首页</a>><a href="{% url url_name %}?pagenum=1&content={{content}}">{{ obj }}</a></nav>
+        {% else %}
+	<nav class=position>当前位置：<a href="">首页</a>><a href="{% url url_name %}?pagenum=1">{{ obj }}</a></nav>
+        {% endifequal %}
+	<div class=content>
+	<ul class=links>
+        {% for list in lists %}
+                {% ifequal list.url_name 'courseware' %}
+		            <li class=link><div class=title><a href={{ list.course.url}} >{{list.title}}</a></div><div class=time>{{ list.time }}</div></li>
+                {% else %}
+		            <li class=link><div class=title><a href="{% url list.url_name %}?ID={{ list.id }}">{{list.title}}</a></div><div class=time>{{ list.time }}</div></li>
+                {% endifequal %}
+        {% endfor %}
+	</ul>
+	<nav class=pages>
+        {% for pagenum in pagenums %}
+            {% ifequal url_name 'search' %}
+                <div class=page><a href="{% url url_name %}?pagenum={{ pagenum }}&content={{ content|urlencode }}">{{ pagenum }}</a></div>
+            {% else %}
+                <div class=page><a href="{% url url_name %}?pagenum={{ pagenum }}">{{ pagenum }}</a></div>
+            {% endifequal %}
+        {% endfor %}
+    </nav></div>
+</div>
+</body>
+</html>

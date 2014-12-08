@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!--reset basic html tags in different browsers to uniform style-->
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css"/>
+	<!--style for content pages-->
+	<link rel="stylesheet" type="text/css" href="/static/css/content.css"/>
+</head>
+<!--send document height to upper frame-->
+<body onload="parent.postMessage(document.getElementById('border').offsetHeight,'*');">
+	<!--set border to get outer height-->
+	<div id="border">
+	<!--navigation link-->
+	<nav class=position>当前位置：<a href="">首页</a>><a href="{% url 'connection' %}">联系我们</a></nav>
+	<div class=content>
+	学院地址：湖北省武汉市洪山区珞喻路 37号<br>
+	邮编：430079<br>
+	党政办：027-68778117<br>
+	教学办：027-68778107<br>
+	招生办：027-68778107<br>
+	邮箱：iss@whu.edu.cn<br><br>
+	Tel:0086 27 68778102<br>
+	Fax:0086 27 68778117<br>
+	E-mail:recruit_iss@whu.edu.cn<br>
+	Address:37 LuoyuRoad,HongshanDistrict,Whuhan,Hubei Province,PR China
+	</div></div>
+</body>
+</html>

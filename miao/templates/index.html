@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!--reset basic html tags in different browsers to uniform style-->
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css"/>
+	<style type="text/css">
+		body{background-color: #e1e0d9;min-width: 1000px;}
+		a{color:white;text-decoration: none;word-break:break-all;}
+		.warp{min-height: 699px;height:100%;margin-bottom: 80px;}
+		nav{width:100%;background-color: #1688cc;padding-bottom: 20px;}
+		.nav-content{width: 1000px;margin: 0 auto;position: relative;}
+		nav img{width:222px;height: 58px;margin-top: 20px;margin-left: 25px;}
+		.nav-list{display: inline-block;position: absolute;top:55px;right: 80px;}
+		.nav-ele{float: right;margin-left: 50px;font-size: 16px;font-family: microsoft yahei;padding-left: 10px;}
+		.active,.nav-ele:hover{border-left: 2px solid white;margin-left: 48px;}
+		.center{width:100%;height: 388px;background-color: #006cac;}
+		.center-img{width:941px;height: 379px;margin: 0 auto;display: block;}
+		.content{width: 100%;height: 210px;min-width: 1000px;}
+		.line{width:100%;background-image: url("/static/img/c.png");height:9px;background-repeat: repeat-x;min-width: 1000px;margin-top: -8px;}
+		.frame{width:1000px;height: 210px;min-width: 1000px;margin: 0 auto;}
+		.news,.notice{width:33%;height:210px;float:left;border-right: 1px solid #d1ccc4;min-width: 332px;position: relative;}
+		.section-title{font-size: 20px;font-family: microsoft yahei;color: #1a6bb6;font-weight: bold;margin-left:8%;margin-top: 15px;}
+		.link{position:absolute;top:25px;right:6%;font-size:12px;font-family: microsoft yahei;}
+		.link>a{color:#816c5b;}
+		.link>a:hover{text-decoration: underline;}
+		.as{margin-top: 25px;}
+		.a{margin-left: 8%;font-size: 15px;font-family: microsoft yahei;width:82%;padding-right:6%;overflow: hidden;height:20px;line-height: 20px;position: relative;margin-bottom: 5px;}
+		.etc{position:absolute;height: 20px;line-height: 20px;font-size: 15px;font-family: microsoft yahei;right: 0;top:0;background-color: #e1e0d9;width: 21px;}
+		.a a{color:#403226;}
+		.a a:hover{color:#d76329;}
+		.button-block{padding-left: 2%;width:31%;height:210px;float:left;position: relative;}
+		.search{width: 87%;height:28px;border:1px solid #a6937c;border-radius: 5px;font-size: 16px;font-family: microsoft yahei;padding:  0 5px;margin-bottom: 17px;margin-top: 11px;}
+		.button{width: 42%;height: 33px;float: left;margin-bottom: 13px;margin-right: 6%;background-color: #1168b8;text-align: center;line-height: 33px;font-family: microsoft yahei;font-weight: 400;border-radius: 5px;}
+		.button:hover{cursor: pointer;background-color: #4589c8;}
+		footer{font-size: 14px;color:#a6937c;text-align: center;padding-top:14px;padding-bottom:14px;margin-top: -61px;border-top: 1px solid #a6937c;width: 100%;}
+		footer a{color:inherit;}
+		footer a:hover{color:white;}
+	</style>
+	<script type="text/javascript">
+	//display a "..." after each title that is broken into more than one line.
+	function etc(){
+		var p=document.getElementsByClassName("box");
+		for (i in p){
+			if(p[i].offsetHeight>20){
+				var e=document.createElement("div");
+				e.setAttribute("class","etc");
+				p[i].parentNode.appendChild(e);
+				e.innerHTML="...";
+			}
+		}
+	}
+	</script>
+</head>
+<!--execute etc() after the document finishes loading-->
+<body onload="etc();">
+	<!--warp the content and provide space for footer-->
+	<div class=warp>
+	<!--navigation bar-->
+	<nav>
+		<div class=nav-content>
+			<img src="/static/img/a.png">
+			<ul class=nav-list>
+				<li class=nav-ele><a href="admin/">登陆</a></li>
+				<li class=nav-ele><a href="menu/?9">招生动态</a></li>
+				<li class=nav-ele><a href="menu/?8">师资队伍</a></li>
+				<li class=nav-ele><a href="menu/?10">学院概况</a></li>
+				<li class="active nav-ele"><a href="">首页</a></li>
+			</ul>
+		</div>
+	</nav>
+	<!--image displayed in the middle-->
+	<div class=center>
+	<img src="/static/img/b.png" class=center-img>
+	</div>
+	<!--seperator line-->
+	<div class=line></div>
+	<!--contents-->
+	<div class=content>
+		<div class=frame>
+		<!--news section-->
+			<div class=news>
+				<div class=section-title>新闻动态</div>
+				<div class=link><a href="menu/?0">>>更多</a></div>
+				<ul class=as>
+                    {%  for i in news %}
+					<li class=a><div class=box><a href="menu/?0&{{ i.id }}">{{i.title}}</a></div></li>
+                    {% endfor %}
+				</ul>
+			</div>
+		<!--notice section-->
+			<div class=notice>
+				<div class=section-title>通知公告</div>
+				<div class=link><a href="menu/?1">>>更多</a></div>
+				<ul class=as>
+                    {% for notice in notices %}
+					<li class=a><div class=box><a href="menu/?0&{{ notice.id }}">{{notice.title}}</a></div></li>
+                    {% endfor %}
+				</ul>
+			</div>
+		<!--button-block section-->
+			<div class=button-block>
+				<form method=get action='menu/'>
+				<input class=search type=text name=content placeholder="请输入关键字搜索">
+				</form>
+				<div class=button><a href="menu/?5">
+					<img src="/static/img/icon_kejian.png" style="position:relative;bottom:3px;right:3px;">课件下载</a></div>
+                               		<div class=button><a href="menu/?2">
+                               			<img src="/static/img/icon_exchange.png"style="position:relative;right:5px;">
+                               			国际交流</a></div>
+				<div class=button><a href="menu/?3">
+					<img src="/static/img/icon_rules.png" style="position:relative;bottom:2px;right:4px;">规章制度</a></div>
+                                	<div class=button><a href="menu/?4" >
+                                		<img src="/static/img/icon_jobs.png" style="position:relative;right:4px;">
+                                		就业信息</a></div>
+				<div class=button><a href="menu/?6">
+					<img src="/static/img/icon_links.png" style="position:relative;bottom:2px;right:4px;">友情链接</a></div>
+                               		<div class=button><a href="menu/?7">
+                               			<img src="/static/img/icon_connection.png" style="position:relative;right:8px;">联系我们</a></div>
+			</div>
+		</div>
+	</div></div>
+	<!--footer-->
+	<footer>Copyright:<a href="#">©给喵金币</a> 2014<br>All rights reserved</footer>
+</body>
+</html>
